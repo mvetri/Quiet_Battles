@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="cart-section">
+    <h1>CHECKOUT</h1>
+
+    <h2>ORDER SUMMARY</h2>
+
+    {% for item in items %}
+    <p>
+        Size: {{ item.size }} |
+        Quantity: {{ item.quantity }} |
+        Subtotal: ₹{{ item.subtotal }}
+    </p>
+    {% endfor %}
+
+    <h2>Total: ₹{{ total }}</h2>
+
+    <form method="POST" action="{% url 'place_order' %}">
+        {% csrf_token %}
+
+        <label>Full Name</label>
+        <input type="text" name="customer_name" required>
+
+        <label>Email</label>
+        <input type="email" name="email" required>
+
+        <label>Phone Number</label>
+        <input type="tel" name="phone" required>
+
+        <label>Delivery Address</label>
+        <textarea name="address" required></textarea>
+
+        <button type="submit" class="cart-btn">
+            PLACE ORDER
+        </button>
+        <!-- <button type="submit" class="place-order-btn">
+            PLACE ORDER
+        </button> -->
+        <!-- <div style="width: 100%; text-align: center;">
+            <button type="submit" class="place-order-btn">
+                PLACE ORDER
+            </button>
+        </div> -->
+
+    </form>
+</section>
+
+{% endblock %}

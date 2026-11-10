@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- <section class="cart-section"> -->
+<section class="cart-section success-page">
+    <h1>ORDER CONFIRMED!</h1>
+
+    <p>Thank you for shopping with QUIET BATTLES™.</p>
+
+    <h2>Order Details</h2>
+
+    <p>Order ID: #{{ order.id }}</p>
+    <p>Customer: {{ order.customer_name }}</p>
+    <p>Total Amount: ₹{{ order.total_amount }}</p>
+
+    <h3>Products</h3>
+
+    {% for item in order.items.all %}
+    <p>
+        {{ item.product_name }} |
+        Size: {{ item.size }} |
+        Quantity: {{ item.quantity }}
+    </p>
+    {% endfor %}
+
+    <a href="{% url 'shop' %}">
+        CONTINUE SHOPPING
+    </a>
+</section>
+
+{% endblock %}

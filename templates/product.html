@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<header>
+    <div class="logo">QUIET BATTLES™</div>
+    <nav>
+        <a href="/">HOME</a>
+        <a href="/archive/">ARCHIVE</a>
+        <a href="/product/">PRODUCT</a>
+    </nav>
+</header>
+
+<section class="product-section">
+
+    <div class="product-image">
+        <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab" alt="Quiet Battles T-shirt">
+    </div>
+
+    <div class="product-details">
+
+        <p>COLLECTION 001 / SERIES 01</p>
+
+        <h1>THE GENTLE ARMOR™</h1>
+
+        <h2>CLASSIC OVERSIZED T-SHIRT</h2>
+
+        <h3>₹1,499</h3>
+
+        <p class="description">
+            More than clothing. A reminder of the strength
+            you carry within. Designed for comfort,
+            simplicity and quiet confidence.
+        </p>
+
+        <!-- <label>SELECT SIZE</label>
+
+        <div class="size-options">
+            <button type="button" onclick="selectSize(this)">S</button>
+            <button type="button" onclick="selectSize(this)">M</button>
+            <button type="button" onclick="selectSize(this)">L</button>
+            <button type="button" onclick="selectSize(this)">XL</button>
+        </div>
+
+        <label for="quantity">QUANTITY</label>
+
+        <input type="number" id="quantity" value="1" min="1">
+
+        <button class="cart-btn" onclick="addToCart()">
+            ADD TO CART
+        </button>
+
+        <p id="cart-message"></p>
+
+    </div> -->
+<form method="POST" action="{% url 'add_to_cart' %}">
+    {% csrf_token %}
+
+    <label for="size">SELECT SIZE</label>
+
+    <div class="size-options">
+        <label>
+            <input type="radio" name="size" value="S" required>
+            S
+        </label>
+
+        <label>
+            <input type="radio" name="size" value="M">
+            M
+        </label>
+
+        <label>
+            <input type="radio" name="size" value="L">
+            L
+        </label>
+
+        <label>
+            <input type="radio" name="size" value="XL">
+            XL
+        </label>
+    </div>
+
+    <label for="quantity">QUANTITY</label>
+    <input type="number" id="quantity" name="quantity" value="1" min="1" required>
+
+    <button type="submit" class="cart-btn">
+        ADD TO CART
+    </button>
+</form>
+
+</section>
+
+<footer>
+    <h3>QUIET BATTLES™</h3>
+    <p>WEAR YOUR BATTLES.</p>
+</footer>
+
+<script>
+
+    let selectedSize = "";
+
+        function selectSize(button) {
+            // ...
+        }
+
+        function addToCart() {
+            // ...
+        }
+</script>
+
+{% endblock %}

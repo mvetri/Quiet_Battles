@@ -1,0 +1,276 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Order Details | Quiet Battles</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 35px;
+            background: #f5f6fa;
+            font-family: Arial, sans-serif;
+            color: #252538;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .back {
+            color: #7048e8;
+            text-decoration: none;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            font-size: 19px;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .customer-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .info p {
+            color: #888;
+            font-size: 12px;
+            margin-bottom: 7px;
+        }
+
+        .info h3 {
+            font-size: 15px;
+            font-weight: normal;
+            overflow-wrap: anywhere;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 500px;
+        }
+
+        th,
+        td {
+            padding: 14px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #171717;
+            color: white;
+            font-size: 13px;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        .total {
+            text-align: right;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .status-form {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .status-form select {
+            padding: 10px 14px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .status-form button {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 6px;
+            background: #7048e8;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .status-form button:hover {
+            background: #5935c5;
+        }
+
+        @media(max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+
+            .customer-info {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="top">
+            <h1>Order #{{ order.id }}</h1>
+
+            <a href="{% url 'order_list' %}" class="back">
+                ← Back to Orders
+            </a>
+        </div>
+
+        <!-- Order Status Management -->
+        <section class="card">
+
+            <h2>Order Status Management</h2>
+
+            <p>Current Status: <strong>{{ order.status }}</strong></p>
+
+        <form method="POST" class="status-form">
+            {% csrf_token %}
+        
+            <select name="status">
+                {% for value, label in status_choices %}
+                <option value="{{ value }}" {% if order.status == value %}selected{% endif %}>
+                    {{ label }}
+                </option>
+                {% endfor %}
+            </select>
+        
+            <button type="submit">Update Status</button>
+        </form>
+
+        <!-- Customer Information -->
+        <section class="card">
+
+            <h2>Customer Information</h2>
+
+            <div class="customer-info">
+
+                <div class="info">
+                    <p>CUSTOMER NAME</p>
+                    <h3>{{ order.customer_name }}</h3>
+                </div>
+
+                <div class="info">
+                    <p>EMAIL ADDRESS</p>
+                    <h3>{{ order.email }}</h3>
+                </div>
+
+                <div class="info">
+                    <p>PHONE NUMBER</p>
+                    <h3>{{ order.phone }}</h3>
+                </div>
+
+                <div class="info">
+                    <p>ORDER DATE</p>
+                    <h3>{{ order.created_at|date:"d M Y, h:i A" }}</h3>
+                </div>
+
+                <div class="info">
+                    <p>DELIVERY ADDRESS</p>
+                    <h3>{{ order.address }}</h3>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Ordered Products -->
+        <section class="card">
+
+            <h2>Ordered Products</h2>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>PRODUCT</th>
+                            <th>SIZE</th>
+                            <th>QUANTITY</th>
+                            <th>PRICE</th>
+                            <th>SUBTOTAL</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for item in order_items %}
+
+                        <tr>
+                            <td>{{ item.product_name }}</td>
+                            <td>{{ item.size }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>₹{{ item.price|floatformat:2 }}</td>
+                            <td>₹{{ item.subtotal|floatformat:2 }}</td>
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+                            <td colspan="5">No order items found.</td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <div class="total">
+                Total: ₹{{ order.total_amount|floatformat:2 }}
+            </div>
+
+        </section>
+
+    </div>
+
+</body>
+
+</html>

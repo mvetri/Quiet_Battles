@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="cart-section cart-page">
+
+    <h1>YOUR CART</h1>
+
+    {% if items %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>PRODUCT</th>
+                <th>SIZE</th>
+                <th>PRICE</th>
+                <th>QUANTITY</th>
+                <th>SUBTOTAL</th>
+                <th>ACTION</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>
+                    {% if item.product.image %}
+                    <img src="{{ item.product.image.url }}" alt="{{ item.name }}" width="60">
+                    {% endif %}
+                    {{ item.name }}
+                </td>
+
+                <td>{{ item.size }}</td>
+                <td>₹{{ item.price }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>₹{{ item.subtotal }}</td>
+
+                <td>
+                    <form method="POST" action="{% url 'remove_from_cart' item.cart_key %}">
+                        {% csrf_token %}
+                        <button type="submit" class="remove-btn">
+                            REMOVE
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Total: ₹{{ total }}</h2>
+
+    <a href="{% url 'shop' %}" class="cart-action-btn">
+        CONTINUE SHOPPING
+    </a>
+
+    <a href="{% url 'checkout' %}" class="cart-btn">
+        PROCEED TO CHECKOUT
+    </a>
+
+    {% else %}
+
+    <p>Your cart is empty.</p>
+
+    <a href="{% url 'shop' %}">
+        EXPLORE COLLECTION
+    </a>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<header>
+    <div class="logo">QUIET BATTLES™</div>
+    <nav>
+        <a href="/">HOME</a>
+        <a href="/archive/">ARCHIVE</a>
+    </nav>
+</header>
+
+<section class="chapter-hero">
+    <p>SERIES 01 — THE GENTLE ARMOR™</p>
+
+    <h1>{{ chapter.title }}</h1>
+
+    <h2>{{ chapter.subtitle }}</h2>
+</section>
+
+<section class="chapter-content">
+
+    <p>
+        CHAPTER {{ chapter.chapter_number|stringformat:"02d" }}
+    </p>
+
+    <h2>{{ chapter.title }}</h2>
+
+    <p>{{ chapter.description|linebreaks }}</p>
+
+    {% if chapter.image %}
+    <img src="{{ chapter.image }}" alt="{{ chapter.title }}" class="chapter-image">
+    {% endif %}
+
+    <a href="{% url 'archive' %}" class="btn">
+        BACK TO ARCHIVE
+    </a>
+
+</section>
+
+<footer>
+    <h3>QUIET BATTLES™</h3>
+    <p>WEAR YOUR BATTLES.</p>
+</footer>
+
+{% endblock %}

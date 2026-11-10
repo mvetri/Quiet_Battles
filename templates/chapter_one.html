@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<header>
+    <div class="logo">QUIET BATTLES™</div>
+    <nav>
+        <a href="/">HOME</a>
+        <a href="/archive/">ARCHIVE</a>
+    </nav>
+</header>
+
+<section class="chapter-hero">
+    <p>SERIES 01 — CHAPTER 01</p>
+    <h1>THE BEGINNING</h1>
+    <h2>EVERY JOURNEY BEGINS WITHIN.</h2>
+</section>
+
+<section class="chapter-content">
+    <p class="chapter-label">THE GENTLE ARMOR™</p>
+
+    <h2>EVERY STORY HAS A BEGINNING.</h2>
+
+    <p>
+        Behind every person is a story that the world may never see.
+        Every challenge, every silent moment and every small victory
+        becomes part of who we are.
+    </p>
+
+    <p>
+        This is where the journey begins. Not with perfection,
+        but with courage to continue.
+    </p>
+
+    <a href="{% url 'archive' %}" class="btn">BACK TO ARCHIVE</a>
+</section>
+
+<footer>
+    <h3>QUIET BATTLES™</h3>
+    <p>WEAR YOUR BATTLES.</p>
+    <p>© 2026 QUIET BATTLES. ALL RIGHTS RESERVED.</p>
+</footer>
+
+{% endblock %}

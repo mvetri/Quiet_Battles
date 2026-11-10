@@ -1,0 +1,331 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiet Battles | Admin Dashboard</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f6fa;
+            color: #252538;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 240px;
+            background: #fff;
+            padding: 30px 20px;
+            border-right: 1px solid #eee;
+            flex-shrink: 0;
+        }
+
+        .brand {
+            font-size: 19px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 45px;
+        }
+
+        .sidebar p {
+            color: #999;
+            font-size: 11px;
+            margin: 25px 10px 12px;
+            letter-spacing: 1px;
+        }
+
+        .sidebar a {
+            display: block;
+            text-decoration: none;
+            color: #666;
+            padding: 13px;
+            margin-bottom: 7px;
+            border-radius: 7px;
+            font-size: 14px;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #eee9ff;
+            color: #7048e8;
+        }
+
+        .main {
+            flex: 1;
+            padding: 30px;
+            min-width: 0;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 35px;
+        }
+
+        .topbar h1 {
+            font-size: 25px;
+        }
+
+        .topbar a {
+            background: #7048e8;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 7px;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 35px;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            border: 1px solid #eee;
+        }
+
+        .card p {
+            color: #888;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+
+        .card h2 {
+            font-size: 26px;
+        }
+
+        .orders {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #eee;
+            overflow-x: auto;
+        }
+
+        .orders h2 {
+            font-size: 19px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 550px;
+        }
+
+        th,
+        td {
+            padding: 15px 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+            font-size: 13px;
+        }
+
+        th {
+            color: #888;
+            font-weight: normal;
+        }
+
+        .empty {
+            text-align: center;
+            color: #999;
+            padding: 30px;
+        }
+
+        @media(max-width: 1000px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media(max-width: 650px) {
+            .sidebar {
+                width: 75px;
+                padding: 20px 8px;
+            }
+
+            .brand {
+                font-size: 11px;
+                text-align: center;
+                overflow-wrap: anywhere;
+            }
+
+            .sidebar p {
+                display: none;
+            }
+
+            .sidebar a {
+                font-size: 11px;
+                text-align: center;
+                padding: 12px 3px;
+            }
+
+            .main {
+                padding: 18px 12px;
+            }
+
+            .topbar h1 {
+                font-size: 19px;
+            }
+
+            .stats {
+                gap: 10px;
+            }
+
+            .card {
+                padding: 15px;
+            }
+
+            .card h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="layout">
+
+        <aside class="sidebar">
+
+            <div class="brand">QUIET BATTLES™</div>
+
+            <p>MAIN MENU</p>
+
+            <a href="{% url 'dashboard_home' %}" class="active">
+                Dashboard
+            </a>
+
+            <!-- <a href="{% url 'admin:products_product_changelist' %}">
+                Products
+            </a> -->
+            <a href="{% url 'product_list' %}">
+                Products
+            </a>
+
+            <a href="{% url 'order_list' %}">
+                Orders
+            </a>
+            
+            <p>STORE</p>
+
+            <a href="/">Visit Website</a>
+
+            <a href="/admin/">Django Admin</a>
+
+        </aside>
+
+        <main class="main">
+
+            <div class="topbar">
+
+                <div>
+                    <h1>Dashboard</h1>
+                    <p>Welcome back, {{ request.user.username }}</p>
+                </div>
+
+                <!-- <a href="{% url 'admin:products_product_add' %}">
+                    + Add Product
+                </a> -->
+                <a href="{% url 'product_add' %}">
+                    + Add Product
+                </a>
+
+            </div>
+
+            <section class="stats">
+
+                <div class="card">
+                    <p>TOTAL PRODUCTS</p>
+                    <h2>{{ total_products }}</h2>
+                </div>
+
+                <div class="card">
+                    <p>ACTIVE PRODUCTS</p>
+                    <h2>{{ active_products }}</h2>
+                </div>
+
+                <div class="card">
+                    <p>TOTAL ORDERS</p>
+                    <h2>{{ total_orders }}</h2>
+                </div>
+
+                <div class="card">
+                    <p>TOTAL REVENUE</p>
+                    <h2>₹{{ total_revenue|floatformat:2 }}</h2>
+                </div>
+
+            </section>
+
+            <section class="orders">
+
+                <h2>Recent Orders</h2>
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>ORDER ID</th>
+                            <th>CUSTOMER</th>
+                            <th>EMAIL</th>
+                            <th>AMOUNT</th>
+                            <th>DATE</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for order in recent_orders %}
+
+                        <tr>
+                            <td>#{{ order.id }}</td>
+                            <td>{{ order.customer_name }}</td>
+                            <td>{{ order.email }}</td>
+                            <td>₹{{ order.total_amount }}</td>
+                            <td>{{ order.created_at|date:"d M Y" }}</td>
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+                            <td colspan="5" class="empty">
+                                No orders available yet.
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

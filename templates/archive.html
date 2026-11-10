@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<header>
+    <div class="logo">QUIET BATTLES™</div>
+    <nav>
+        <a href="/">HOME</a>
+        <a href="/archive/">ARCHIVE</a>
+        <a href="/#about">ABOUT</a>
+    </nav>
+</header>
+
+<section class="archive-hero">
+    <p>THE COLLECTIONS</p>
+    <h1>THE ARCHIVE</h1>
+    <p>Stories of strength. Chapters of courage.</p>
+</section>
+
+<section class="series">
+    <p>COLLECTION 001</p>
+    <h2>SERIES 01</h2>
+    <h3>THE GENTLE ARMOR™</h3>
+
+    <div class="chapter-grid">
+
+        {% for chapter in chapters %}
+
+        <a href="{% url 'chapter_detail' chapter.slug %}" class="chapter chapter-link">
+
+            <span>{{ chapter.chapter_number|stringformat:"02d" }}</span>
+
+            <h3>{{ chapter.title }}</h3>
+
+            <p>{{ chapter.subtitle }}</p>
+
+            <small>EXPLORE CHAPTER →</small>
+
+        </a>
+
+        {% empty %}
+
+        <p>No chapters available yet.</p>
+
+        {% endfor %}
+
+    </div>
+</section>
+
+<footer>
+    <h3>QUIET BATTLES™</h3>
+    <p>WEAR YOUR BATTLES.</p>
+    <p>© 2026 QUIET BATTLES. ALL RIGHTS RESERVED.</p>
+</footer>
+
+{% endblock %}

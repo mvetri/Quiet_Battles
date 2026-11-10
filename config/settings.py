@@ -30,6 +30,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'cloudinary_storage',
+    'django.contrib.staticfiles',
+    'cloudinary',
+
     'core',
     'archive',
     'products',
@@ -109,13 +113,14 @@ STATICFILES_DIRS = [
 
 # WhiteNoise static file compression
 STORAGES = {
+    'default': {
+        'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage',
+    },
     'staticfiles': {
         'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
     },
-    'default': {
-        'BACKEND': 'django.core.files.storage.FileSystemStorage',
-    },
 }
+
 
 # Media files
 MEDIA_URL = '/media/'

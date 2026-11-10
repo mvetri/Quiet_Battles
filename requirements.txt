@@ -1,0 +1,9 @@
+asgiref==3.9.1
+Django==5.2.5
+django-allauth==65.10.0
+gunicorn==27.0.0
+pillow==11.3.0
+python-dotenv==1.2.4
+sqlparse==0.5.3
+tzdata==2025.2
+whitenoise==6.12.0

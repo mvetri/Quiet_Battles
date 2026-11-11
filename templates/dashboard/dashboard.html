@@ -227,6 +227,10 @@
             <a href="{% url 'order_list' %}">
                 Orders
             </a>
+
+            <a href="{% url 'contact_message_list' %}">
+                Contact Messages
+            </a>
             
             <p>STORE</p>
 
@@ -274,6 +278,11 @@
                 <div class="card">
                     <p>TOTAL REVENUE</p>
                     <h2>₹{{ total_revenue|floatformat:2 }}</h2>
+                </div>
+
+                <div class="card">
+                    <p>TOTAL CONTACT MESSAGES</p>
+                    <h2>{{ total_messages }}</h2>
                 </div>
 
             </section>

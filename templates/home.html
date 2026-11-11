@@ -10,6 +10,7 @@
         <a href="/archive/">ARCHIVE</a>
         <a href="/shop/">PRODUCT</a>
         <a href="#about">ABOUT</a>
+        <a href="{% url 'contact' %}">CONTACT</a>
     </nav>
 </header>
 
@@ -47,6 +48,39 @@
     </p>
 
 </section>
+
+<!-- CONTACT SECTION -->
+
+<section class="home-contact" id="contact">
+
+    <p>QUIET BATTLES™</p>
+
+    <h2>LET'S CONNECT.</h2>
+
+    <p class="contact-description">
+        Have a question or want to share your thoughts?
+        We'd love to hear from you.
+    </p>
+
+    <form method="POST" action="{% url 'home' %}">
+        {% csrf_token %}
+
+        {{ contact_form.non_field_errors }}
+
+        {{ contact_form.name }}
+        {{ contact_form.email }}
+        {{ contact_form.subject }}
+        {{ contact_form.message }}
+
+        <button type="submit">SEND MESSAGE →</button>
+    </form>
+
+    <a href="{% url 'contact' %}" class="contact-more">
+        VISIT CONTACT PAGE →
+    </a>
+
+</section>
+
 
 <footer>
     <h3>QUIET BATTLES™</h3>

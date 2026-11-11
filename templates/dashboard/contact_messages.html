@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Messages | Quiet Battles</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 35px;
+            background: #f4f5f7;
+            font-family: Arial, sans-serif;
+            color: #222;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .btn {
+            padding: 11px 17px;
+            background: #111;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .search {
+            margin-bottom: 20px;
+        }
+
+        .search input {
+            padding: 11px;
+            width: 260px;
+            max-width: 70%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #171717;
+            color: white;
+        }
+
+        .view {
+            color: #1769aa;
+            font-weight: bold;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+        }
+
+        @media(max-width: 700px) {
+            body {
+                padding: 15px;
+            }
+
+            .table-wrapper {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 750px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="top">
+            <div>
+                <h1>Contact Messages</h1>
+                <p>Manage customer enquiries</p>
+            </div>
+
+            <a href="{% url 'dashboard_home' %}" class="btn">
+                Dashboard
+            </a>
+        </div>
+
+        <form method="GET" class="search">
+            <input type="text" name="search" placeholder="Search messages..." value="{{ search }}">
+            <button type="submit" class="btn">Search</button>
+        </form>
+
+        <div class="table-wrapper">
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Subject</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for item in contact_messages %}
+
+                    <tr>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.email }}</td>
+                        <td>{{ item.subject }}</td>
+                        <td>{{ item.created_at|date:"d M Y, h:i A" }}</td>
+                        <td>
+                            {% if item.is_read %}
+                            <span class="status read">READ</span>
+                            {% else %}
+                            <span class="status unread">UNREAD</span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            <a href="{% url 'contact_message_detail' item.id %}" class="view">
+                                View Message
+                            </a>
+                        </td>
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="7" class="empty">
+                            No contact messages found.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+        </div>
+
+        <p style="margin-top:25px;">
+            <a href="{% url 'dashboard_home' %}">
+                ← Back to Dashboard
+            </a>
+        </p>
+
+    </div>
+
+</body>
+
+</html>

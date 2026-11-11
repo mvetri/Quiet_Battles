@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="contact-page">
+
+    <div class="contact-header">
+        <p class="contact-label">QUIET BATTLES™</p>
+        <h1>GET IN TOUCH</h1>
+        <p>Every story deserves to be heard.</p>
+    </div>
+
+    <div class="contact-container">
+
+        <div class="contact-info">
+            <h2>WE'RE HERE FOR YOU.</h2>
+
+            <p>
+                Have a question about our collection, your order,
+                or anything else? We'd love to hear from you.
+            </p>
+
+            <div class="contact-detail">
+                <span>BRAND</span>
+                <p>QUIET BATTLES™</p>
+            </div>
+
+            <div class="contact-detail">
+                <span>TAGLINE</span>
+                <p>WEAR YOUR BATTLES.</p>
+            </div>
+        </div>
+
+        <div class="contact-form">
+
+            <h2>SEND US A MESSAGE</h2>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                {{ form.non_field_errors }}
+
+                <label>YOUR NAME</label>
+                {{ form.name }}
+                {{ form.name.errors }}
+
+                <label>EMAIL ADDRESS</label>
+                {{ form.email }}
+                {{ form.email.errors }}
+
+                <label>SUBJECT</label>
+                {{ form.subject }}
+                {{ form.subject.errors }}
+
+                <label>YOUR MESSAGE</label>
+                {{ form.message }}
+                {{ form.message.errors }}
+
+                <button type="submit">
+                    SEND MESSAGE →
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

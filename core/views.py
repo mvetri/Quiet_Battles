@@ -1,9 +1,22 @@
-from django.shortcuts import render
+
+from django.shortcuts import render, redirect
 from products.models import Product
+from .forms import ContactForm
 
 
 def home(request):
-    return render(request, 'home.html')
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = ContactForm()
+
+    return render(request, 'home.html', {
+        'contact_form': form
+    })
 
 
 def shop(request):
@@ -12,3 +25,22 @@ def shop(request):
     return render(request, 'shop.html', {
         'products': products
     })
+
+
+def contact(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('contact_success')
+    else:
+        form = ContactForm()
+
+    return render(request, 'contact.html', {
+        'form': form
+    })
+
+
+def contact_success(request):
+    return render(request, 'contact_success.html')

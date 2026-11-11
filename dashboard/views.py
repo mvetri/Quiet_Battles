@@ -7,7 +7,7 @@ from django.db.models import Sum, Q
 
 from products.models import Product, Order
 from .forms import ProductForm
-
+from core.models import ContactMessage
 
 # Staff-only dashboard protection
 def staff_required(view_func):
@@ -24,6 +24,8 @@ def dashboard_home(request):
     active_products = Product.objects.filter(is_active=True).count()
     total_orders = Order.objects.count()
 
+    total_messages = ContactMessage.objects.count()
+
     total_revenue = Order.objects.aggregate(
         total=Sum('total_amount')
     )['total'] or 0
@@ -38,11 +40,11 @@ def dashboard_home(request):
         'total_orders': total_orders,
         'total_revenue': total_revenue,
         'total_customers': total_customers,
+        'total_messages': total_messages,
         'recent_orders': recent_orders,
     }
 
     return render(request, 'dashboard/dashboard.html', context)
-
 
 @staff_required
 def product_list(request):
@@ -171,4 +173,38 @@ def order_detail(request, order_id):
         'order': order,
         'order_items': order_items,
         'status_choices': Order.STATUS_CHOICES,
+    })
+
+
+@staff_required
+def contact_message_list(request):
+
+    search = request.GET.get('search', '').strip()
+
+    contact_messages = ContactMessage.objects.all().order_by('-created_at')
+
+    if search:
+        contact_messages = contact_messages.filter(
+            Q(name__icontains=search) |
+            Q(email__icontains=search) |
+            Q(subject__icontains=search) |
+            Q(message__icontains=search)
+        )
+
+    return render(request, 'dashboard/contact_messages.html', {
+        'contact_messages': contact_messages,
+        'search': search,
+    })
+
+
+@staff_required
+def contact_message_detail(request, message_id):
+    contact_message = get_object_or_404(ContactMessage, id=message_id)
+
+    if not contact_message.is_read:
+        contact_message.is_read = True
+        contact_message.save()
+
+    return render(request, 'dashboard/contact_message_detail.html', {
+        'contact_message': contact_message,
     })
